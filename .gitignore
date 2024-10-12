@@ -1,0 +1,22 @@
+# Node Modules
+node_modules/
+
+# Логи
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Кэш и временные файлы
+.DS_Store
+.env
+.tmp
+.vscode/
+
+# Папки сборки и зависимости
+dist/
+build/
+coverage/
+
+# Системные файлы
+.idea/
+*.swp
