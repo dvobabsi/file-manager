@@ -1,5 +1,6 @@
 import readline from 'readline';
-import { printCurrentDirectory } from './directory.js';
+import { printCurrentDirectory, goUp, changeDirectory, listDirectoryContent, showMoreContent } from './directory.js';
+import { handleInvalidInput } from './errors.js';
 
 export const setupInput = (username) => {
   const rl = readline.createInterface({
@@ -8,12 +9,39 @@ export const setupInput = (username) => {
   });
 
   rl.on('line', (input) => {
-    if (input.trim() === '.exit') {
-      rl.close();
-    } else {
-      console.log('Invalid input');
-      printCurrentDirectory();
+    const [command, ...args] = input.trim().split(' ');
+
+    try {
+      switch (command) {
+        case 'up':
+          goUp();
+          break;
+
+        case 'cd':
+          if (!args.length) throw new Error('Path is missing');
+          changeDirectory(args.join(' '));
+          break;
+
+        case 'ls':
+          listDirectoryContent();
+          break;
+
+        case 'more':
+          showMoreContent();
+          break;
+
+        case '.exit':
+          rl.close();
+          break;
+
+        default:
+          handleInvalidInput();
+      }
+    } catch (error) {
+      handleInvalidInput();
     }
+
+    printCurrentDirectory();
   });
 
   rl.on('close', () => {
